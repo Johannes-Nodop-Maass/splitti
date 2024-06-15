@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spliti/widgets/bottom_sheets/draggable_bottom_sheet.dart';
-import 'package:spliti/widgets/text.dart';
+import 'package:splitti/widgets/bottom_sheets/draggable_bottom_sheet.dart';
+import 'package:splitti/widgets/text.dart';
 
 class QuitConfirmationRoute extends WBDraggableBottomSheetRoute<bool> {
   QuitConfirmationRoute()

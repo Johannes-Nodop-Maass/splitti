@@ -1,6 +1,6 @@
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:spliti/model/invoice.dart';
-import 'package:spliti/model/invoices.dart';
+import 'package:splitti/model/invoice.dart';
+import 'package:splitti/model/invoices.dart';
 
 class ReceiptsCubit extends HydratedCubit<Invoices> {
   ReceiptsCubit() : super(Invoices(invoices: []));

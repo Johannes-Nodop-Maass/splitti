@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
-import 'package:spliti/extensions/iterable.dart';
-import 'package:spliti/model/invoices.dart';
-import 'package:spliti/state/receipts_cubit.dart';
-import 'package:spliti/widgets/add_receipt_route.dart';
-import 'package:spliti/widgets/quit_confirmation_route.dart';
-import 'package:spliti/widgets/text.dart';
+import 'package:splitti/extensions/iterable.dart';
+import 'package:splitti/model/invoices.dart';
+import 'package:splitti/state/receipts_cubit.dart';
+import 'package:splitti/widgets/add_receipt_route.dart';
+import 'package:splitti/widgets/quit_confirmation_route.dart';
+import 'package:splitti/widgets/text.dart';
 
 class HomePage extends HookWidget {
   const HomePage({super.key, required this.title});

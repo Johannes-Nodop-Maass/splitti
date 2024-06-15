@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:leancode_hooks/leancode_hooks.dart';
-import 'package:spliti/model/invoice.dart';
-import 'package:spliti/state/receipts_cubit.dart';
-import 'package:spliti/widgets/bottom_sheets/draggable_bottom_sheet.dart';
-import 'package:spliti/widgets/text.dart';
-import 'package:spliti/widgets/text_fields/price_text_field.dart';
-import 'package:spliti/widgets/text_fields/purpose_text_field.dart';
+import 'package:splitti/model/invoice.dart';
+import 'package:splitti/state/receipts_cubit.dart';
+import 'package:splitti/widgets/bottom_sheets/draggable_bottom_sheet.dart';
+import 'package:splitti/widgets/text.dart';
+import 'package:splitti/widgets/text_fields/price_text_field.dart';
+import 'package:splitti/widgets/text_fields/purpose_text_field.dart';
 
 class AddReceiptRoute extends WBDraggableBottomSheetRoute<bool> {
   AddReceiptRoute()

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:spliti/features/home.dart';
-import 'package:spliti/global_providers.dart';
+import 'package:splitti/features/home.dart';
+import 'package:splitti/global_providers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spliti/widgets/bottom_sheets/bottom_sheet_suspended_curve.dart';
+import 'package:splitti/widgets/bottom_sheets/bottom_sheet_suspended_curve.dart';
 
 const double _minFlingVelocity = 500;
 const double _closeProgressThreshold = 0.5;

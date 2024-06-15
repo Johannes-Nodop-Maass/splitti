@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:spliti/model/invoice.dart';
+import 'package:splitti/model/invoice.dart';
 
 part 'invoices.g.dart';
 

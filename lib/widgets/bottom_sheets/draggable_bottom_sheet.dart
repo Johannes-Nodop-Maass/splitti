@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spliti/widgets/bottom_sheets/cupertino_bottom_sheet_container.dart';
-import 'package:spliti/widgets/bottom_sheets/modal_bottom_sheet.dart';
+import 'package:splitti/widgets/bottom_sheets/cupertino_bottom_sheet_container.dart';
+import 'package:splitti/widgets/bottom_sheets/modal_bottom_sheet.dart';
 
 const double _previousPageVisibleOffset = 10;
 

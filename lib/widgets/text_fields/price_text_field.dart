@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:spliti/widgets/text_fields/input_border.dart';
+import 'package:splitti/widgets/text_fields/input_border.dart';
 
 class PriceTextFieldField extends StatelessWidget {
   const PriceTextFieldField({
