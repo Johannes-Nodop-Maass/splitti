@@ -15,8 +15,8 @@ class ReceiptsCubit extends HydratedCubit<Invoices> {
     refreshState();
   }
 
-  void edit(Invoice receipt) {
-    state.edit(receipt);
+  void edit(Invoice prev, Invoice edited) {
+    state.edit(prev, edited);
     refreshState();
   }
 

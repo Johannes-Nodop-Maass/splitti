@@ -17,9 +17,9 @@ class Invoices {
         (receipt) => receipt.recurrence != Recurrence.once,
       );
 
-  void edit(Invoice invoice) {
-    final index = invoices.indexWhere((e) => e == invoice);
-    invoices[index] = invoice;
+  void edit(Invoice prev, Invoice edited) {
+    final index = invoices.indexWhere((e) => e == prev);
+    invoices[index] = edited;
   }
 
   factory Invoices.fromJson(Map<String, dynamic> json) =>

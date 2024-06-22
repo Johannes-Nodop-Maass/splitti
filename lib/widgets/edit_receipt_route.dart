@@ -32,6 +32,7 @@ class EditReceiptScreen extends HookWidget {
     Recurrence recurrence,
   ) {
     context.read<ReceiptsCubit>().edit(
+          receipt,
           Invoice(
             name: name,
             value: price,
@@ -49,10 +50,14 @@ class EditReceiptScreen extends HookWidget {
     final date = useState(receipt.date);
     final recurrence = useState(receipt.recurrence);
 
-    final priceController = useSyncedTextEditingController((value) =>
-        price.value = double.tryParse(value.text.replaceAll(',', '.')) ?? 0.0);
+    final priceController = useSyncedTextEditingController(
+      (value) =>
+          price.value = double.tryParse(value.text.replaceAll(',', '.')) ?? 0.0,
+      initialText: receipt.value.toString(),
+    );
     final purposeController = useSyncedTextEditingController(
       (value) => purpose.value = value.text,
+      initialText: receipt.name,
     );
 
     return Material(
@@ -68,15 +73,9 @@ class EditReceiptScreen extends HookWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 8),
-                PriceTextFieldField(
-                  controller: priceController,
-                  initialValue: receipt.value,
-                ),
+                PriceTextFieldField(controller: priceController),
                 const SizedBox(height: 8),
-                PurposeTextFieldField(
-                  controller: purposeController,
-                  initialText: receipt.name,
-                ),
+                PurposeTextFieldField(controller: purposeController),
                 const SizedBox(height: 8),
                 RecurrenceDropdownMenu(recurrence: recurrence),
                 const SizedBox(height: 8),
