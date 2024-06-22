@@ -4,14 +4,12 @@ import 'package:splitti/widgets/text_fields/input_border.dart';
 class PurposeTextFieldField extends StatelessWidget {
   const PurposeTextFieldField({
     super.key,
-    required this.hasError,
-    required this.onSubmitted,
     required this.controller,
+    this.initialText = 'Zweck',
   });
 
-  final bool hasError;
-  final ValueChanged<String>? onSubmitted;
   final TextEditingController controller;
+  final String initialText;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +20,7 @@ class PurposeTextFieldField extends StatelessWidget {
     return TextField(
       style: const TextStyle(color: Colors.grey),
       decoration: InputDecoration(
-        labelText: 'Zweck',
-        errorText: hasError ? '' : null,
+        labelText: initialText,
         errorStyle: const TextStyle(height: 0),
         contentPadding: const EdgeInsets.symmetric(
           vertical: 14,
@@ -68,7 +65,6 @@ class PurposeTextFieldField extends StatelessWidget {
       autofillHints: const [AutofillHints.location],
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
-      onSubmitted: onSubmitted,
       controller: controller,
     );
   }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:splitti/widgets/text_fields/input_border.dart';
@@ -7,14 +5,12 @@ import 'package:splitti/widgets/text_fields/input_border.dart';
 class PriceTextFieldField extends StatelessWidget {
   const PriceTextFieldField({
     super.key,
-    required this.hasError,
-    required this.onSubmitted,
     required this.controller,
+    this.initialValue,
   });
 
-  final bool hasError;
-  final ValueChanged<String>? onSubmitted;
   final TextEditingController controller;
+  final double? initialValue;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +25,7 @@ class PriceTextFieldField extends StatelessWidget {
         FilteringTextInputFormatter.allow(RegExp(r'^\d+(\.|,)?\d{0,2}')),
       ],
       decoration: InputDecoration(
-        labelText: 'Betrag',
-        errorText: hasError ? '' : null,
+        labelText: initialValue?.toString() ?? 'Betrag',
         errorStyle: const TextStyle(height: 0),
         contentPadding: const EdgeInsets.symmetric(
           vertical: 14,
@@ -73,11 +68,8 @@ class PriceTextFieldField extends StatelessWidget {
               ),
       ),
       autofillHints: const [AutofillHints.transactionAmount],
-      keyboardType: Platform.isIOS
-          ? const TextInputType.numberWithOptions(signed: true, decimal: true)
-          : TextInputType.number,
+      keyboardType: TextInputType.number,
       textInputAction: TextInputAction.next,
-      onSubmitted: onSubmitted,
       controller: controller,
     );
   }

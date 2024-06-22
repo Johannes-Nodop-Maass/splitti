@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:leancode_hooks/leancode_hooks.dart';
 import 'package:splitti/model/invoice.dart';
 import 'package:splitti/state/receipts_cubit.dart';
 import 'package:splitti/widgets/bottom_sheets/draggable_bottom_sheet.dart';
+import 'package:splitti/widgets/date_selector.dart';
+import 'package:splitti/widgets/recurrence_dropdown_menu.dart';
 import 'package:splitti/widgets/text.dart';
 import 'package:splitti/widgets/text_fields/price_text_field.dart';
 import 'package:splitti/widgets/text_fields/purpose_text_field.dart';
+
+import 'buttons/cancel_button.dart';
 
 class AddReceiptRoute extends WBDraggableBottomSheetRoute<bool> {
   AddReceiptRoute()
@@ -25,30 +28,17 @@ class AddReceiptScreen extends HookWidget {
     double price,
     String name,
     DateTime date,
-    bool monthly,
+    Recurrence recurrence,
   ) {
     context.read<ReceiptsCubit>().add(
           Invoice(
             name: name,
             value: price,
             date: date,
-            monthly: monthly,
+            recurrence: recurrence,
           ),
         );
     Navigator.of(context).pop();
-  }
-
-  Future<void> _selectDate(
-    BuildContext context,
-    ValueNotifier<DateTime> date,
-  ) async {
-    final DateTime? selectedDate = await showDatePicker(
-      context: context,
-      initialDate: date.value,
-      firstDate: DateTime(2023, 1),
-      lastDate: DateTime(2043, 1),
-    );
-    date.value = selectedDate ?? date.value;
   }
 
   @override
@@ -56,7 +46,7 @@ class AddReceiptScreen extends HookWidget {
     final price = useState(0.0);
     final purpose = useState('');
     final date = useState(DateTime.now());
-    final monthly = useState(false);
+    final recurrence = useState(Recurrence.once);
 
     final priceController = useSyncedTextEditingController((value) =>
         price.value = double.tryParse(value.text.replaceAll(',', '.')) ?? 0.0);
@@ -77,48 +67,13 @@ class AddReceiptScreen extends HookWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 8),
-                PriceTextFieldField(
-                  controller: priceController,
-                  hasError: false,
-                  onSubmitted: (_) {},
-                ),
+                PriceTextFieldField(controller: priceController),
                 const SizedBox(height: 8),
-                PurposeTextFieldField(
-                  controller: purposeController,
-                  hasError: false,
-                  onSubmitted: (_) {},
-                ),
+                PurposeTextFieldField(controller: purposeController),
                 const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const CText('Wiederkehrende Ausgabe?'),
-                    const SizedBox(
-                      width: 24,
-                    ),
-                    Checkbox(
-                      value: monthly.value,
-                      side: const BorderSide(color: Colors.teal),
-                      onChanged: (value) => monthly.value = value ?? false,
-                    ),
-                  ],
-                ),
+                RecurrenceDropdownMenu(recurrence: recurrence),
                 const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CText(
-                      'Datum: ${DateFormat('dd.MM.yyyy').format(date.value)}',
-                    ),
-                    IconButton(
-                      onPressed: () => _selectDate(context, date),
-                      icon: const Icon(
-                        Icons.calendar_month,
-                        color: Colors.teal,
-                      ),
-                    ),
-                  ],
-                ),
+                DateSelector(date: date),
                 const SizedBox(height: 24),
                 TextButton(
                   onPressed: () => _onDone(
@@ -126,21 +81,14 @@ class AddReceiptScreen extends HookWidget {
                     price.value,
                     purpose.value,
                     date.value,
-                    monthly.value,
+                    recurrence.value,
                   ),
                   child: const CText(
                     'Hinzufügen',
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const CText(
-                    'Abbrechen',
-                    fontWeight: FontWeight.w900,
-                    color: Colors.red,
-                  ),
-                ),
+                const CancelButton(),
                 SizedBox(height: MediaQuery.of(context).viewInsets.bottom)
               ],
             ),

@@ -15,6 +15,11 @@ class ReceiptsCubit extends HydratedCubit<Invoices> {
     refreshState();
   }
 
+  void edit(Invoice receipt) {
+    state.edit(receipt);
+    refreshState();
+  }
+
   void reset() {
     state.reset();
     final newState = Invoices(invoices: []);
@@ -24,11 +29,10 @@ class ReceiptsCubit extends HydratedCubit<Invoices> {
           value: receipt.value,
           name: receipt.name,
           date: DateTime.now(),
-          monthly: receipt.monthly,
+          recurrence: receipt.recurrence,
         ),
       );
     }
-    emit(newState);
     refreshState();
   }
 
