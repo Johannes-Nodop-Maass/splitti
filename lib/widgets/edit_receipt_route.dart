@@ -95,6 +95,7 @@ class EditReceiptScreen extends HookWidget {
                   ),
                 ),
                 const CancelButton(),
+                SizedBox(height: MediaQuery.of(context).viewInsets.bottom)
               ],
             ),
           ),
