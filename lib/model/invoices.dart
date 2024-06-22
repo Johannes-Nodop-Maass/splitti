@@ -5,22 +5,21 @@ part 'invoices.g.dart';
 
 @JsonSerializable()
 class Invoices {
-  Invoices({
-    required this.invoices,
-  });
+  Invoices({required this.invoices});
 
   List<Invoice> invoices;
 
-  void add(Invoice invoice) {
-    invoices.add(invoice);
-  }
+  void add(Invoice invoice) => invoices.add(invoice);
 
-  void remove(Invoice invoice) {
-    invoices.remove(invoice);
-  }
+  void remove(Invoice invoice) => invoices.remove(invoice);
 
-  void reset() {
-    invoices.removeWhere((receipt) => !receipt.monthly);
+  void reset() => invoices.removeWhere(
+        (receipt) => receipt.recurrence != Recurrence.once,
+      );
+
+  void edit(Invoice invoice) {
+    final index = invoices.indexWhere((e) => e == invoice);
+    invoices[index] = invoice;
   }
 
   factory Invoices.fromJson(Map<String, dynamic> json) =>

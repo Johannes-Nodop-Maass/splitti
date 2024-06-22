@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:splitti/widgets/text_fields/input_border.dart';
@@ -71,7 +73,9 @@ class PriceTextFieldField extends StatelessWidget {
               ),
       ),
       autofillHints: const [AutofillHints.transactionAmount],
-      keyboardType: TextInputType.number,
+      keyboardType: Platform.isIOS
+          ? const TextInputType.numberWithOptions(signed: true, decimal: true)
+          : TextInputType.number,
       textInputAction: TextInputAction.next,
       onSubmitted: onSubmitted,
       controller: controller,

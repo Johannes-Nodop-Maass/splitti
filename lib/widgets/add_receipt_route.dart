@@ -141,6 +141,7 @@ class AddReceiptScreen extends HookWidget {
                     color: Colors.red,
                   ),
                 ),
+                SizedBox(height: MediaQuery.of(context).viewInsets.bottom)
               ],
             ),
           ),
