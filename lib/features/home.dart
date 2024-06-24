@@ -49,7 +49,7 @@ class HomePage extends HookWidget {
 
         final screenWidth = MediaQuery.sizeOf(context).width;
 
-        final textColumnWidth = (screenWidth - 24 * 9.5) / 2;
+        final textColumnWidth = (screenWidth - 16 * 12.3) / 2;
 
         return Scaffold(
           appBar: AppBar(
@@ -73,9 +73,10 @@ class HomePage extends HookWidget {
               Container(
                 alignment: Alignment.center,
                 child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(bottom: 128),
                   child: receipts.invoices.isNotEmpty
                       ? DataTable(
-                          columnSpacing: 24,
+                          columnSpacing: 16,
                           headingRowHeight: 32,
                           columns: const [
                             DataColumn(label: CText('Datum')),
@@ -131,18 +132,19 @@ class HomePage extends HookWidget {
           ),
         ),
         SizedBox(
-          width: textColumnWidth,
+          width: textColumnWidth * 1.5 - 16,
           child: CText(
               '${receipt.name} ${receipt.recurrence != Recurrence.once ? '↻' : ''}'),
         ),
         SizedBox(
-          width: textColumnWidth,
+          width: textColumnWidth / 1.5,
           child: CText(
               '${receipt.value.toStringAsFixed(2).replaceAll('.', ',')} €'),
         ),
         SizedBox(
           width: 24,
           child: IconButton(
+            padding: EdgeInsets.zero,
             onPressed: () =>
                 Navigator.of(context).push(EditReceiptRoute(receipt)),
             icon: const Icon(Icons.edit),
@@ -151,6 +153,7 @@ class HomePage extends HookWidget {
         SizedBox(
           width: 24,
           child: IconButton(
+            padding: EdgeInsets.zero,
             onPressed: () async {
               final confirmed = await Navigator.of(context).push(
                 QuitConfirmationRoute(),
