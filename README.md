@@ -1,4 +1,4 @@
-# spliti
+# Splitti
 
 A new Flutter project.
 
