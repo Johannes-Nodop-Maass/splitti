@@ -3,15 +3,17 @@ import 'package:splitti/widgets/bottom_sheets/draggable_bottom_sheet.dart';
 import 'package:splitti/widgets/text.dart';
 
 class QuitConfirmationRoute extends WBDraggableBottomSheetRoute<bool> {
-  QuitConfirmationRoute()
+  QuitConfirmationRoute(String question)
       : super(
-          builder: (_, __, ___) => const QuitConfirmationScreen(),
+          builder: (_, __, ___) => QuitConfirmationScreen(question),
           expanded: false,
         );
 }
 
 class QuitConfirmationScreen extends StatelessWidget {
-  const QuitConfirmationScreen({super.key});
+  const QuitConfirmationScreen(this.question, {super.key});
+
+  final String question;
 
   void _onQuitCanceled(BuildContext context) {
     Navigator.of(context).pop(false);
@@ -36,8 +38,8 @@ class QuitConfirmationScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 8),
-                const CText(
-                  'Möchtest du alle nicht wiederkehrenden Belege löschen?',
+                CText(
+                  question,
                   color: Colors.black,
                   textAlign: TextAlign.center,
                 ),
