@@ -22,6 +22,20 @@ class Invoices {
     invoices[index] = edited;
   }
 
+  void sort(int index, bool ascending) {
+    invoices.sort((a, b) {
+      if (index == 0) {
+        return ascending ? a.date.compareTo(b.date) : b.date.compareTo(a.date);
+      }
+      if (index == 1) {
+        return ascending ? a.name.compareTo(b.name) : b.name.compareTo(a.name);
+      }
+      return ascending
+          ? a.value.compareTo(b.value)
+          : b.value.compareTo(a.value);
+    });
+  }
+
   factory Invoices.fromJson(Map<String, dynamic> json) =>
       _$InvoicesFromJson(json);
 
