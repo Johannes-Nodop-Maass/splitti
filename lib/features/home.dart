@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
+import 'package:leancode_hooks/leancode_hooks.dart';
 import 'package:splitti/extensions/iterable.dart';
 import 'package:splitti/model/invoice.dart';
 import 'package:splitti/model/invoices.dart';
@@ -43,13 +44,45 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sortIndex = useState(0);
+    final sortAscending = useState(true);
+
+    useEffect(() {
+      context
+          .read<ReceiptsCubit>()
+          .state
+          .sort(sortIndex.value, sortAscending.value);
+      return;
+    }, [sortIndex.value, sortAscending.value]);
+
     return BlocBuilder<ReceiptsCubit, Invoices>(
       builder: (context, receipts) {
-        final cubit = context.watch<ReceiptsCubit>();
+        void sort(int index, bool ascending) {
+          sortIndex.value = index;
+          sortAscending.value = ascending;
+        }
 
         final screenWidth = MediaQuery.sizeOf(context).width;
 
-        final textColumnWidth = (screenWidth - 16 * 12.3) / 2;
+        final textColumnWidth = (screenWidth - 16 * 13) / 2;
+
+        final dataColumns = [
+          DataColumn(onSort: sort, label: const CText('Datum')),
+          DataColumn(onSort: sort, label: const CText('Zweck')),
+          DataColumn(onSort: sort, label: const CText('Betrag')),
+          const DataColumn(label: CText('')),
+          const DataColumn(label: CText('')),
+        ];
+
+        final dataRows = [
+          ...receipts.invoices.mapList(
+            (receipt) => _dataRow(
+              receipt,
+              textColumnWidth,
+              context,
+            ),
+          ),
+        ];
 
         return Scaffold(
           appBar: AppBar(
@@ -58,11 +91,13 @@ class HomePage extends HookWidget {
             leading: IconButton(
               onPressed: () async {
                 final confirmed = await Navigator.of(context).push(
-                  QuitConfirmationRoute(),
+                  QuitConfirmationRoute(
+                    'Möchtest du alle nicht wiederkehrenden Belege löschen?',
+                  ),
                 );
 
                 if (confirmed ?? false) {
-                  cubit.reset();
+                  receipts.reset();
                 }
               },
               icon: const Icon(Icons.playlist_remove),
@@ -76,25 +111,12 @@ class HomePage extends HookWidget {
                   padding: const EdgeInsets.only(bottom: 128),
                   child: receipts.invoices.isNotEmpty
                       ? DataTable(
+                          sortColumnIndex: sortIndex.value,
+                          sortAscending: sortAscending.value,
                           columnSpacing: 16,
                           headingRowHeight: 32,
-                          columns: const [
-                            DataColumn(label: CText('Datum')),
-                            DataColumn(label: CText('Zweck')),
-                            DataColumn(label: CText('Betrag')),
-                            DataColumn(label: CText('')),
-                            DataColumn(label: CText('')),
-                          ],
-                          rows: [
-                            ...receipts.invoices.mapList(
-                              (receipt) => _dataRow(
-                                receipt,
-                                textColumnWidth,
-                                context,
-                                cubit,
-                              ),
-                            ),
-                          ],
+                          columns: dataColumns,
+                          rows: dataRows,
                         )
                       : const CText('Keine Einträge vorhanden.'),
                 ),
@@ -122,24 +144,24 @@ class HomePage extends HookWidget {
     Invoice receipt,
     double textColumnWidth,
     BuildContext context,
-    ReceiptsCubit cubit,
   ) {
+    final date = DateFormat('dd.MM').format(receipt.date);
+    final name =
+        '${receipt.name} ${receipt.recurrence != Recurrence.once ? '↻' : ''}';
+    final value = '${receipt.value.toStringAsFixed(2).replaceAll('.', ',')} €';
+
     return DataRow(
       cells: [
         SizedBox(
-          child: CText(
-            DateFormat('dd.MM').format(receipt.date),
-          ),
+          child: CText(date),
         ),
         SizedBox(
           width: textColumnWidth * 1.5 - 16,
-          child: CText(
-              '${receipt.name} ${receipt.recurrence != Recurrence.once ? '↻' : ''}'),
+          child: CText(name),
         ),
         SizedBox(
           width: textColumnWidth / 1.5,
-          child: CText(
-              '${receipt.value.toStringAsFixed(2).replaceAll('.', ',')} €'),
+          child: CText(value),
         ),
         SizedBox(
           width: 24,
@@ -156,11 +178,13 @@ class HomePage extends HookWidget {
             padding: EdgeInsets.zero,
             onPressed: () async {
               final confirmed = await Navigator.of(context).push(
-                QuitConfirmationRoute(),
+                QuitConfirmationRoute(
+                  'Möchtest du den Eintrag "$name" vom $date über $value wirklich löschen?',
+                ),
               );
 
-              if (confirmed ?? false) {
-                cubit.remove(receipt);
+              if (context.mounted && (confirmed ?? false)) {
+                context.read<ReceiptsCubit>().remove(receipt);
               }
             },
             icon: const Icon(Icons.delete),
