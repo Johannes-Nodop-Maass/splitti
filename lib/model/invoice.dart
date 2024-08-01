@@ -27,16 +27,16 @@ class Invoice extends Equatable {
 }
 
 enum Recurrence {
-  @JsonValue("once")
+  @JsonValue("Einmalig")
   once,
-  @JsonValue("monthly")
+  @JsonValue("Monatlich")
   monthly,
-  @JsonValue("bimonthly")
+  @JsonValue("Zweimonatlich")
   bimonthly,
-  @JsonValue("quarterly")
+  @JsonValue("Quartalsweise")
   quarterly,
-  @JsonValue("semiannual")
+  @JsonValue("Halbjährlich")
   semiannual,
-  @JsonValue("annual")
+  @JsonValue("Jährlich")
   annual,
 }
