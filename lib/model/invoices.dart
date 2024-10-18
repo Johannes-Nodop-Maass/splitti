@@ -14,7 +14,7 @@ class Invoices {
   void remove(Invoice invoice) => invoices.remove(invoice);
 
   void reset() => invoices.removeWhere(
-        (receipt) => receipt.recurrence != Recurrence.once,
+        (receipt) => receipt.recurrence == Recurrence.once,
       );
 
   void edit(Invoice prev, Invoice edited) {
