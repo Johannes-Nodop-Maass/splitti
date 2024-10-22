@@ -22,17 +22,6 @@ class ReceiptsCubit extends HydratedCubit<Invoices> {
 
   void reset() {
     state.reset();
-    final newState = Invoices(invoices: []);
-    for (var receipt in state.invoices) {
-      newState.invoices.add(
-        Invoice(
-          value: receipt.value,
-          name: receipt.name,
-          date: DateTime.now(),
-          recurrence: receipt.recurrence,
-        ),
-      );
-    }
     refreshState();
   }
 

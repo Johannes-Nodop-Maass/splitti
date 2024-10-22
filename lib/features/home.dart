@@ -96,8 +96,8 @@ class HomePage extends HookWidget {
                   ),
                 );
 
-                if (confirmed ?? false) {
-                  receipts.reset();
+                if (context.mounted && (confirmed ?? false)) {
+                  context.read<ReceiptsCubit>().reset();
                 }
               },
               icon: const Icon(Icons.playlist_remove),
