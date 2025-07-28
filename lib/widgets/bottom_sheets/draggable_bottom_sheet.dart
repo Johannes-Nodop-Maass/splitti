@@ -84,8 +84,8 @@ abstract class WBDraggableBottomSheetRoute<T> extends PopupRoute<T> {
   String? get barrierLabel => semanticBarrierLabel;
 
   @override
-  // ignore: regexp_exclude
-  Color get barrierColor => modalBarrierColor ?? Colors.black.withOpacity(0.35);
+  Color get barrierColor =>
+      modalBarrierColor ?? Colors.black.withValues(alpha: 0.35);
 
   @override
   AnimationController createAnimationController() {

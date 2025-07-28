@@ -97,7 +97,7 @@ class CInputBorder extends OutlineInputBorder {
       Offset(dx, rect.height),
       Paint()
         ..strokeWidth = borderSide.width
-        ..color = borderSide.color.withOpacity(dividerOpacity),
+        ..color = borderSide.color.withValues(alpha: dividerOpacity),
     );
   }
 
